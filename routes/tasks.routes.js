@@ -59,7 +59,6 @@ router.get("/", getAllTasks);
  */
 router.get("/search", getTaskByTitle);
 
-
 /**
  * @swagger
  *   /tasks:
@@ -76,7 +75,7 @@ router.get("/search", getTaskByTitle);
  *         "400":
  *           $ref: '#/components/responses/400'
  *         "201":
- *           description: Book created successfully
+ *           description: Task created successfully
  *           contents:
  *             application/json
  */
@@ -104,6 +103,8 @@ router.post("/", createTask);
  *       responses:
  *         "400":
  *           $ref: '#/components/responses/400'
+ *         "404":
+ *           $ref: '#/components/responses/404'
  *         "200":
  *           description: Task updated successfully
  *           contents:
@@ -111,7 +112,7 @@ router.post("/", createTask);
  */
 router.put("/:id", updateTask);
 
-/** 
+/**
  * @swagger
  *   /tasks/{id}:
  *     delete:
@@ -127,6 +128,8 @@ router.put("/:id", updateTask);
  *       responses:
  *         "400":
  *           $ref: '#/components/responses/400'
+ *         "404":
+ *         $ref: '#/components/responses/404'
  *         "200":
  *           description: Task deleted successfully
  *           contents:
