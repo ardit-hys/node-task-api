@@ -7,6 +7,7 @@ import {
   updateTaskQuery,
   deleteTaskQuery,
   getTaskByTitleQuery,
+  getTaskByIdQuery,
 } from "../utils/queries.js";
 
 export const getAllTasks = async (req, res) => {
@@ -23,6 +24,24 @@ export const getAllTasks = async (req, res) => {
   } catch (error) {
     console.log("Error retrieving tasks", error);
     res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+export const getTaskById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await client.query(getTaskByIdQuery, [id]);
+
+    if (result.rows.length === 0) {
+      // No task found
+      res.status(404).json({ error: "No task found" });
+      return;
+    }
+
+    res.status(200).json(result.rows[0]);
+  } catch (error) {
+    console.log("Error retrieving tasks", error);
+    res.status(404).json({ error: "Task not found" });
   }
 };
 

@@ -5,6 +5,7 @@ import {
   updateTask,
   deleteTask,
   getTaskByTitle,
+  getTaskById,
 } from "./../controllers/tasks.controller.js";
 
 const router = express.Router();
@@ -58,6 +59,33 @@ router.get("/", getAllTasks);
  *               $ref: '#/components/schemas/Task'
  */
 router.get("/search", getTaskByTitle);
+
+/**
+ * @swagger
+ * /tasks/{id}:
+ *   get:
+ *     summary: Get a task by ID
+ *     tags: [Tasks]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID of the task to retrieve
+ *     responses:
+ *       "500":
+ *         $ref: '#/components/responses/500'
+ *       "404":
+ *         $ref: '#/components/responses/404'
+ *       "200":
+ *         description: Successful! The task that matches the id
+ *         contents:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Task'
+ */
+router.get("/:id", getTaskById);
 
 /**
  * @swagger

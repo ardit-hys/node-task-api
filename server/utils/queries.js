@@ -1,6 +1,7 @@
 export const getAllTasksQuery = `SELECT tasks.task_id, tasks.title, categories.name AS category, tasks.description, tasks.status, tasks.due_date
 FROM tasks
-JOIN categories ON tasks.category_id = categories.category_id`;
+JOIN categories ON tasks.category_id = categories.category_id
+ORDER BY tasks.due_date ASC`;
 
 export const createTaskQuery = `
 INSERT INTO tasks (title, category_id, description, status, due_date)
@@ -24,3 +25,10 @@ export const updateTaskQuery = `
 export const deleteTaskQuery = `DELETE FROM tasks WHERE task_id = $1`;
 
 export const getTaskByTitleQuery = `SELECT * FROM tasks WHERE title ILIKE '%' || $1 || '%'`;
+
+export const getTaskByIdQuery = `
+SELECT tasks.task_id, tasks.title, categories.name AS category, tasks.description, tasks.status, tasks.due_date
+FROM tasks
+JOIN categories ON tasks.category_id = categories.category_id
+WHERE task_id = $1
+`;
