@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import {
-  deleteTask,
-  getAllTasks,
-  getTaskById,
-  getTaskByTitle,
-  updateTask,
-} from "../functions/taskFunctions";
 import Header from "./Header";
 import moment from "moment";
 import DeleteModal from "./DeleteModal";
 import { toast } from "react-toastify";
 import { CheckOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import TaskService from "../services/TaskService";
 
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
@@ -35,17 +29,17 @@ const TaskList = () => {
   }, [titleSearch]);
 
   const getTasks = async () => {
-    const response = await getAllTasks();
+    const response = await TaskService.getAllTasks();
 
-    setTasks(response.data);
-    console.log(response.data);
+    setTasks(response);
+    console.log(response);
   };
 
   const searchTaskByTitle = async (text) => {
     try {
-      const response = await getTaskByTitle(text);
-      setTasks(response.data);
-      console.log(response.data);
+      const response = await TaskService.getTaskByTitle(text);
+      setTasks(response);
+      console.log(response);
     } catch (error) {
       console.error("Error searching tasks:", error);
     }
@@ -53,7 +47,7 @@ const TaskList = () => {
 
   const handleDeleteTask = async (taskId) => {
     try {
-      await deleteTask(taskId);
+      await TaskService.deleteTask(taskId);
       toast.info(`Task successfully deleted`);
       getTasks();
     } catch (error) {
@@ -65,11 +59,11 @@ const TaskList = () => {
   const handleMarkAsDone = async (taskIdToMark) => {
     try {
       console.log("handlemark");
-      const taskToMark = await getTaskById(taskIdToMark);
-      const updatedTask = { ...taskToMark.data, status: "Done" }; // Create a new task object with the updated status
+      const taskToMark = await TaskService.getTaskById(taskIdToMark);
+      const updatedTask = { ...taskToMark, status: "Done" }; // Create a new task object with the updated status
       console.log("taskToMark", taskToMark);
       console.log("updatedTask", updatedTask);
-      await updateTask(taskIdToMark, updatedTask);
+      await TaskService.updateTask(taskIdToMark, updatedTask);
       toast.success("Task marked as done");
       getTasks();
     } catch (error) {
@@ -119,6 +113,7 @@ const TaskList = () => {
                   </button>
                   <button
                     type="button"
+                    name="Delete"
                     className="btn btn-outline-danger"
                     data-bs-toggle="modal"
                     data-bs-target="#exampleModal"

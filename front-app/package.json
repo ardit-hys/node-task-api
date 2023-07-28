@@ -65,7 +65,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "lint": "SET NODE_ENV=development && SET BABEL_ENV=development npx eslint ./"
   },
   "eslintConfig": {
     "extends": [

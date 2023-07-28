@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getTaskById, updateTask } from "../functions/taskFunctions";
 import { toast } from "react-toastify";
 import moment from "moment";
 import Header from "./Header";
+import TaskService from "../services/TaskService";
 
 const UpdateTask = () => {
   const [task, setTask] = useState({
@@ -25,20 +25,20 @@ const UpdateTask = () => {
   }, [id]);
 
   const fetchTaskToUpdate = async (id) => {
-    const response = await getTaskById(id);
+    const response = await TaskService.getTaskById(id);
     setTask({
-      title: response.data.title,
-      description: response.data.description,
-      status: response.data.status,
-      dueDate: moment(response.data.due_date).format("YYYY-MM-DD"),
-      category: response.data.category,
+      title: response.title,
+      description: response.description,
+      status: response.status,
+      dueDate: moment(response.due_date).format("YYYY-MM-DD"),
+      category: response.category,
     });
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await updateTask(id, task);
+      await TaskService.updateTask(id, task);
     } catch (error) {
       toast.error(`Error updating task. Try again`);
     }

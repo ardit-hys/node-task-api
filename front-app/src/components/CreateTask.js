@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createTask } from "../functions/taskFunctions";
 import { toast } from "react-toastify";
 import Header from "./Header";
+import TaskService from "../services/TaskService";
 
 const CreateTask = () => {
   const [task, setTask] = useState({
@@ -18,7 +18,7 @@ const CreateTask = () => {
   const handleCreateTask = async (event) => {
     event.preventDefault();
     try {
-      await createTask(task);
+      await TaskService.createTask(task);
     } catch (error) {
       toast.error(`Error creating task. Try again`);
       navigate("/new");

@@ -1,12 +1,7 @@
 import express from "express";
-import {
-  getAllTasks,
-  createTask,
-  updateTask,
-  deleteTask,
-  getTaskByTitle,
-  getTaskById,
-} from "./../controllers/tasks.controller.js";
+import TaskService from "../services/tasks.service.js";
+
+const taskService = new TaskService();
 
 const router = express.Router();
 
@@ -31,7 +26,7 @@ const router = express.Router();
  *               schema:
  *                 $ref: '#/components/schemas/Task'
  */
-router.get("/", getAllTasks);
+router.get("/", taskService.getAllTasks);
 
 /**
  * @swagger
@@ -58,7 +53,7 @@ router.get("/", getAllTasks);
  *             schema:
  *               $ref: '#/components/schemas/Task'
  */
-router.get("/search", getTaskByTitle);
+router.get("/search", taskService.getTasksByTitle);
 
 /**
  * @swagger
@@ -85,7 +80,7 @@ router.get("/search", getTaskByTitle);
  *             schema:
  *               $ref: '#/components/schemas/Task'
  */
-router.get("/:id", getTaskById);
+router.get("/:id", taskService.getTaskById);
 
 /**
  * @swagger
@@ -107,7 +102,7 @@ router.get("/:id", getTaskById);
  *           contents:
  *             application/json
  */
-router.post("/", createTask);
+router.post("/", taskService.createTask);
 
 /**
  * @swagger
@@ -138,7 +133,7 @@ router.post("/", createTask);
  *           contents:
  *             application/json
  */
-router.put("/:id", updateTask);
+router.put("/:id", taskService.updateTask);
 
 /**
  * @swagger
@@ -163,6 +158,6 @@ router.put("/:id", updateTask);
  *           contents:
  *             application/json
  */
-router.delete("/:id", deleteTask);
+router.delete("/:id", taskService.deleteTask);
 
 export default router;
